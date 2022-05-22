@@ -1,7 +1,29 @@
+import fs from 'fs';
+import ArLocal from 'arlocal';
+import Arweave from 'arweave';
+import { JWKInterface } from 'arweave/node/lib/wallet';
+import path from 'path';
+import { addFunds, mineBlock } from '../utils/_helpers';
+import {
+  PstContract,
+  PstState,
+  SmartWeave,
+} from 'redstone-smartweave';
+
 describe('Testing the Profit Sharing Token', () => {
   beforeAll(async () => {
     // ~~ Declare all variables ~~
+    let contractSrc: string;
 
+    let wallet: JWKInterface;
+    let walletAddress: string;
+  
+    let initialState: PstState;
+  
+    let arweave: Arweave;
+    let arlocal: ArLocal;
+    let smartweave: SmartWeave;
+    let pst: PstContract;
     // ~~ Set up ArLocal and instantiate Arweave ~~
 
     // ~~ Initialize 'LoggerFactory' ~~
