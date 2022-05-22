@@ -1,3 +1,12 @@
 // ~~ Write the `mintTokens` interaction for your contract ~~
 
-export const mintTokens = async () => {};
+import { ContractResult, PstAction, PstState } from "@/contracts/types/types";
+
+
+declare const ContractError;
+
+export const mintTokens = async (
+  state: PstState,
+  { caller, input: { qty } }: PstAction
+): Promise<ContractResult> => {
+};
