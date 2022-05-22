@@ -9,4 +9,6 @@ export const mintTokens = async (
   state: PstState,
   { caller, input: { qty } }: PstAction
 ): Promise<ContractResult> => {
+    // error: qty less than 0
+    // error: qty not a number
 };
