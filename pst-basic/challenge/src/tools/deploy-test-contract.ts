@@ -16,7 +16,6 @@ let arweave: Arweave;
 let smartweave: SmartWeave;
 
 (async () => {
-  // ~~ Declare variables ~~
   // ~~ Initialize Arweave ~~
   // ~~ Initialize `LoggerFactory` ~~
   // ~~ Initialize SmartWeave ~~

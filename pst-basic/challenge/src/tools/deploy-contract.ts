@@ -1,5 +1,5 @@
 (async () => {
-// ~~ Declare variables ~~
+// ~~ Initialize variables ~~
 
 // ~~ Initialize Arweave ~~
 
