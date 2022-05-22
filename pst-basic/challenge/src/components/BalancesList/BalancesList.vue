@@ -14,9 +14,7 @@
           <span class="d-none d-lg-block">{{ balance.address }}</span
           ><span class="d-block d-lg-none">{{ balance.address | tx }}</span>
         </div>
-        <div class="balance">
-          {{ balance.balance }} <img class="img-fc" src="../../assets/fc.png" />
-        </div>
+        <div class="balance">{{ balance.balance }} <img class="img-fc" src="../../assets/fc.png" /></div>
         <input
           type="number"
           ref="balanceTransfer"
@@ -25,9 +23,7 @@
           :disabled="balance.address == walletAddress"
         />
 
-        <button @click="transfer(balance.address, balance.value, index)">
-          Transfer
-        </button>
+        <button @click="transfer(balance.address, balance.value, index)">Transfer</button>
         <div></div>
       </li>
     </ul>
@@ -38,11 +34,20 @@
 import Vue from 'vue';
 import { mapState } from 'vuex';
 import PacmanLoader from 'vue-spinner/src/PacmanLoader.vue';
+import { loadContract, readContract } from 'smartweave';
 
 export default Vue.extend({
   name: 'BalancesList',
   props: {
     balances: Array,
+  },
+  async mounted() {
+    // const res = await this.arweave.transactions.get(
+    //   '6hzHw8wwOuojRMpFOzlJCWJm2ls1Ch5L1U2gFLQI7NM'
+    // );
+    var result = await readContract(this.arweave, 'NfOsoVlsQ4_hh_tLwvI4IkNQr0Ey5p3_uHTqKD1O3Ts');
+    // const contractOwner = await this.arweave.wallets.ownerToAddress(res.owner);
+    console.log(result);
   },
   data() {
     return {
@@ -64,22 +69,19 @@ export default Vue.extend({
         return;
       }
       if (!this.balances[this.userIdx]) {
-        this.$toasted.error(
-          'Your balance is not enough to transfer tokens. Please mint some FC first.',
-          { duration: 3000 }
-        );
+        this.$toasted.error('Your balance is not enough to transfer tokens. Please mint some FC first.', {
+          duration: 3000,
+        });
         this.$refs['balanceTransfer'].value = '';
         return;
       }
       this.$toasted.show('Processing...');
-
-      // ~~ Call `transfer` method ~~
-      const tx = null;
-
-      // ~~ Mine a block ~~
-
-      // ~~ Set new balances list by calling `currentState` method
-      let newResult = null;
+      const tx = await this.contract.transfer({
+        target: address,
+        qty: parseInt(qty),
+      });
+      await this.arweave.api.get('mine');
+      let newResult = await this.contract.currentState();
       if (newResult) {
         this.$toasted.clear();
         this.$toasted.global.success('Processed!');
